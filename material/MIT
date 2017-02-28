@@ -1,0 +1,41 @@
+一、如何下载获取MIT-BIH的数据
+从下面这个官方链接页面可以下载到所有48组MIT-BIH心电数据：
+
+http://www.physionet.org/physiobank/database/mitdb/
+
+
+ 
+    下面这个链接是MIT-BIH数据库的详细说明和使用指南，英文好的同学不妨仔细阅读：
+
+http://www.physionet.org/physiobank/database/html/mitdbdir/mitdbdir.htm
+
+ 
+
+二、MIT-BIH的数据格式
+MIT为了节省文件长度和存储空间，使用了自定义的格式，所以没有通用的读取方式。
+一个心电记录由三个部分组成：
+（1）头文件[.hea]，存储方式ASCII码字符。
+（2）数据文件[.dat]，按二进制存储，每三个字节存储两个数，一个数12bit。
+（3）注释文件[.art]，按二进制存储，格式定义比较复杂，但是只要知道第（2）个如何读入matlab就可以类推出如何读第（3）个。
+
+三、利用官方网站的工具读取MIT-BIH数据
+
+可以用这个链接方面的浏览MIT的各种生理数据库：
+
+http://www.physionet.org/cgi-bin/chart
+
+并且网页的右上角提供的将信号转换为txt文件的工具。具体图示如下：
+
+（1）进入http://www.physionet.org/cgi-bin/chart 这个页面后，从网页中上部的下拉菜单中选择所需的数据库，例如“MIT-BIH Arrhythmia Database (mitdb)”，然后点击下拉菜单旁的“Continue”按钮，进入下一页面；
+ 
+
+（2）在Record对应的下拉菜单中选择所需的ECG数据，例如“100”号数据记录，如果需要查看信号波形，请点击下方的“Show chart”按钮，即可看到一段10秒长的心电图，可以根据需要点击页面左侧或右侧的箭头按钮查看前10秒或后10秒的心电波形； 
+ 
+
+
+（3）如果需要获取文档格式的数据，可以在页面最右侧相应于“Record”一行找到 “Convert signals to text”链接，点击该链接，进入下一页面；然后点击页面中的“Show samples”按钮，即可得到有关该记录的从0-60秒内的时间信息和两组信号的具体数据：
+ 
+ 
+
+（4）当然，网站为我们提供了便捷的数据邮件发送功能，只需在“E-mail samples to”按钮后面填入您的邮箱地址，再点击该按钮，即可将所需的心电记录数据传送至您的邮箱。
+ 
