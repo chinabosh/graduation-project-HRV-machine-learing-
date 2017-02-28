@@ -1,0 +1,27 @@
+文件读取
+MIT-BIH的文件有三个，.atr文件是注释文件，.hea是头文件，说明信号数据的特性，.dat文件就是实际的数据文件
+.hea文件内容如下：
+100 2 360 650000
+100.dat 212 200 11 1024 995 -22131 0 MLII
+100.dat 212 200 11 1024 1011 20052 0 V5
+# 69 M 1085 1629 x1
+# Aldomet, Inderal
+第一行为记录行，2路360Hz采样的信号，每一路采样个数650000；
+下面两行是对各路信号的数据说明，212格式，每个信号增益是200ADCunits/Mv，ADC是11位，ADC零值是1024，第一采样点的值分别是995和1011等信息。
+212格式：用12位表示一个数，所以3个字节表示两个数，数据存储模型应该是：
+
+matlab读取程序：
+function M=rddata_mit;
+filename=input('please enter the filename,end with .dat','s');
+signald=filename;
+fid2=fopen(signald,'r');
+SAMPLES2READ=10000;
+A= fread(fid2, [3, SAMPLES2READ], 'uint8')';      % 矩阵A共有SAMPLES2READ行、3列，每列数据都是以uint8格式读入，注意这时数据通过uint8的读入方式已经成为十进制数
+fclose(fid2);
+M2H= bitshift(A(:,2), -4);                              % 字节向右移四位，即取字节的高四位，属于信号2的高4位
+M1H= bitand(A(:,2), 15);                              % 取字节的低四位，属于信号1的高4位
+PRL=bitshift(bitand(A(:,2),8),9);                 % sign-bit   取出字节低四位中最高位，向左移九位
+PRR=bitshift(bitand(A(:,2),128),5);            % sign-bit   取出字节高四位中最高位，向左移五位
+M( : , 1)= bitshift(M1H,8)+ A(:,1)-PRL;       % 将M1H、M2H分别左移8位，即乘以2^8，再分别加上A(:,1)，A(:,2)，
+M( : , 2)= bitshift(M2H,8)+ A(:,3)-PRR;       % 由于左移时把符号位也移动了，要减去符号位的值
+M=M';                                                               % 为了方便后期的数据处理，将输出矩阵 M 转置为2行SAMPLES2READ列
