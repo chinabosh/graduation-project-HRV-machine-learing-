@@ -27,3 +27,12 @@ MEAN :全程记录中相邻 NN 间期的平均值
 STD :全程记录中相邻 NN 间期的标准差
 
 CV R-R :心率变异系数 ,是标准差与均值之比
+
+算法分析
+http://blog.sina.com.cn/s/blog_533074eb01018rnc.html
+
+机器学习研究思路
+http://it.sohu.com/20160112/n434311372.shtml
+
+wfdb使用教程翻译版
+http://blog.sina.com.cn/s/blog_615e7b3f0102v9q1.html
